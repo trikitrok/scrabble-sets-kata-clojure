@@ -37,4 +37,15 @@
                                      "3: S, U\n"
                                      "2: B, C, F, G, M, V, Y\n"
                                      "1: H, J, K, P, W, X, Z, _\n"
-                                     "0: Q")))
+                                     "0: Q")
+
+    (scrabble/tiles-left
+      "LQTOONOEFFJZT") => (str "11: E\n"
+                               "9: A, I\n"
+                               "6: R\n"
+                               "5: N, O\n"
+                               "4: D, S, T, U\n"
+                               "3: G, L\n"
+                               "2: B, C, H, M, P, V, W, Y, _\n"
+                               "1: K, X\n"
+                               "0: F, J, Q, Z")))
