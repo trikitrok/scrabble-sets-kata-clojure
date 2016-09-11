@@ -19,8 +19,8 @@
 (defn- sort-tiles [tiles-left-distribution]
   (map (fn [[freq & [tiles]]]
          (vector freq (sort (map first tiles))))
-       (sort-by #(- (key %))
-                (group-by #(second %) tiles-left-distribution))))
+       (sort-by
+         key > (group-by #(second %) tiles-left-distribution))))
 
 (defn- consume-tile [distribution tile-in-play]
   (update distribution (str tile-in-play) dec))

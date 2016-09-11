@@ -51,4 +51,5 @@
   (fact
     "when trying to put in play too many tiles of some kind"
     (scrabble/tiles-left
-      "AXHDRUIOR_XHJZUQEE") => "Invalid input. More X's have been taken from the bag than possible."))
+      "AXHDRUIOR_XHJZUQEE")
+    => "Invalid input. More X's have been taken from the bag than possible."))
