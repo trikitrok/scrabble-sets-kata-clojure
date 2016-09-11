@@ -14,10 +14,10 @@
        (map display-tiles-frequencies)
        (string/join "\n")))
 
-(defn- sort-tiles [tiles-in-bag]
-  (map (fn [[freq & [letters]]]
-         (vector freq (sort (map first letters))))
-       (sort-by #(- (key %)) (group-by #(second %) tiles-in-bag))))
+(defn- sort-tiles [tiles-left-distribution]
+  (map (fn [[freq & [tiles]]]
+         (vector freq (sort (map first tiles))))
+       (sort-by #(- (key %)) (group-by #(second %) tiles-left-distribution))))
 
 (defn- consume-tile [distribution tile-in-play]
   (update distribution (str tile-in-play) dec))
