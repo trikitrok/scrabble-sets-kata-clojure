@@ -34,7 +34,7 @@
 (defn- display-tiles-frequencies [[freq tiles]]
   (str freq ": " (string/join ", " (map str tiles))))
 
-(defn- display-sorted-tiles [sorted-tiles]
+(defn- display [sorted-tiles]
   (->> sorted-tiles
        (map display-tiles-frequencies)
        (string/join "\n")))
@@ -51,8 +51,19 @@
     tile-distribution
     tiles-in-play))
 
+(defn- display-error [consumed-tiles]
+  (str "Invalid input. More "
+       (string/join ", " (map first consumed-tiles))
+       "'s have been taken from the bag than possible."))
+
+(defn- display-tiles [tiles-left-distribution]
+  (let [overconsumed-tiles (filter #(neg? (second %)) tiles-left-distribution)]
+    (if (empty? overconsumed-tiles)
+      (display (sort-tiles tiles-left-distribution))
+      (display-error overconsumed-tiles))))
+
+
 (defn tiles-left [tiles-in-play]
   (->> tile-distribution
        (compute-tiles-left-distribution tiles-in-play)
-       sort-tiles
-       display-sorted-tiles))
+       display-tiles))

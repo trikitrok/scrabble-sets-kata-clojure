@@ -48,4 +48,7 @@
                                "3: G, L\n"
                                "2: B, C, H, M, P, V, W, Y, _\n"
                                "1: K, X\n"
-                               "0: F, J, Q, Z")))
+                               "0: F, J, Q, Z")
+
+    (scrabble/tiles-left
+      "AXHDRUIOR_XHJZUQEE") => "Invalid input. More X's have been taken from the bag than possible."))
