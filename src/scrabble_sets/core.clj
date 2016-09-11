@@ -32,7 +32,7 @@
    "Z" 1})
 
 (defn- display-tiles-frequencies [[freq tiles]]
-  (str freq ": " (string/join " " (map str tiles))))
+  (str freq ": " (string/join ", " (map str tiles))))
 
 (defn- display-sorted-tiles [sorted-tiles]
   (->> sorted-tiles
@@ -44,7 +44,15 @@
          (vector freq (sort (map first elems))))
        (sort-by #(- (key %)) (group-by #(second %) tiles-in-bag))))
 
+(defn- compute-tiles-left-distribution [tiles-in-play tile-distribution]
+  (reduce
+    (fn [distribution tile-in-play]
+      (update distribution (str tile-in-play) dec))
+    tile-distribution
+    tiles-in-play))
+
 (defn tiles-left [tiles-in-play]
-  (-> tile-distribution
-      sort-tiles
-      display-sorted-tiles))
+  (->> tile-distribution
+       (compute-tiles-left-distribution tiles-in-play)
+       sort-tiles
+       display-sorted-tiles))

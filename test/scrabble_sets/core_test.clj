@@ -17,10 +17,24 @@
 
       (scrabble/tiles-left
         "") => (str "12: E\n"
-                    "9: A I\n"
+                    "9: A, I\n"
                     "8: O\n"
-                    "6: N R T\n"
-                    "4: D L S U\n"
+                    "6: N, R, T\n"
+                    "4: D, L, S, U\n"
                     "3: G\n"
-                    "2: B C F H M P V W Y _\n"
-                    "1: J K Q X Z"))))
+                    "2: B, C, F, H, M, P, V, W, Y, _\n"
+                    "1: J, K, Q, X, Z")))
+
+  (fact
+    "when some tiles are in play"
+
+    (scrabble/tiles-left
+      "PQAREIOURSTHGWIOAE_") => (str "10: E\n"
+                                     "7: A, I\n"
+                                     "6: N, O\n"
+                                     "5: T\n"
+                                     "4: D, L, R\n"
+                                     "3: S, U\n"
+                                     "2: B, C, F, G, M, V, Y\n"
+                                     "1: H, J, K, P, W, X, Z, _\n"
+                                     "0: Q")))
