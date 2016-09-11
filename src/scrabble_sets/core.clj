@@ -15,8 +15,8 @@
        (string/join "\n")))
 
 (defn- sort-tiles [tiles-in-bag]
-  (map (fn [[freq & [elems]]]
-         (vector freq (sort (map first elems))))
+  (map (fn [[freq & [letters]]]
+         (vector freq (sort (map first letters))))
        (sort-by #(- (key %)) (group-by #(second %) tiles-in-bag))))
 
 (defn- consume-tile [distribution tile-in-play]
