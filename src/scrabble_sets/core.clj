@@ -2,45 +2,43 @@
   (:require
     [clojure.string :as string]))
 
-(def ^:private tile-distribution
+(def ^:private tiles-in-bag
   {"E" 12 "A" 9 "I" 9 "O" 8 "N" 6 "R" 6 "T" 6
    "L" 4 "S" 4 "U" 4 "D" 4 "G" 3 "_" 2 "B" 2
    "C" 2 "M" 2 "P" 2 "F" 2 "H" 2 "V" 2 "W" 2
    "Y" 2 "K" 1 "J" 1 "X" 1 "Q" 1 "Z" 1})
 
-(defn- display-tiles-frequencies [[freq tiles]]
+(defn- format-tile [[freq tiles]]
   (str freq ": " (string/join ", " (map str tiles))))
 
 (defn- format-tiles [sorted-tiles]
   (->> sorted-tiles
-       (map display-tiles-frequencies)
+       (map format-tile)
        (string/join "\n")))
 
-(defn- sort-tiles [tiles-left-distribution]
+(defn- sort-tiles [tiles-in-bag]
   (map (fn [[freq & [tiles]]]
-         (vector freq (sort (map first tiles))))
-       (sort-by
-         key > (group-by #(second %) tiles-left-distribution))))
+         [freq (sort (map first tiles))])
+       (sort-by key > (group-by #(second %) tiles-in-bag))))
 
-(defn- consume-tile [distribution tile-in-play]
-  (update distribution (str tile-in-play) dec))
+(defn- consume-tile [tiles-in-bag tile-in-play]
+  (update tiles-in-bag tile-in-play dec))
 
-(defn- consume [tiles-in-play tile-distribution]
-  (reduce consume-tile tile-distribution tiles-in-play))
+(defn- consume [tiles-in-play tiles-in-bag]
+  (reduce consume-tile tiles-in-bag tiles-in-play))
 
-(defn- display-error [consumed-tiles]
+(defn- format-error-message [consumed-tiles]
   (str "Invalid input. More "
        (string/join ", " (map first consumed-tiles))
        "'s have been taken from the bag than possible."))
 
-(defn- display-distribution [tiles-left-distribution]
-  (let [overconsumed-tiles (filter #(neg? (second %))
-                                   tiles-left-distribution)]
+(defn- display-distribution [tiles-in-bag]
+  (let [overconsumed-tiles (filter #(neg? (second %)) tiles-in-bag)]
     (if (empty? overconsumed-tiles)
-      (format-tiles (sort-tiles tiles-left-distribution))
-      (display-error overconsumed-tiles))))
+      (format-tiles (sort-tiles tiles-in-bag))
+      (format-error-message overconsumed-tiles))))
 
 (defn tiles-left [tiles-in-play]
-  (->> tile-distribution
-       (consume tiles-in-play)
+  (->> tiles-in-bag
+       (consume (map str tiles-in-play))
        display-distribution))
