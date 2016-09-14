@@ -9,7 +9,7 @@
    "Y" 2 "K" 1 "J" 1 "X" 1 "Q" 1 "Z" 1})
 
 (def ^:private group-by-frequency
-  (partial group-by #(second %)))
+  (partial group-by second))
 
 (defn- format-tile [[freq tiles]]
   (str freq ": " (string/join ", " (map str tiles))))
