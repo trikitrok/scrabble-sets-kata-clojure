@@ -8,6 +8,9 @@
    "C" 2 "M" 2 "P" 2 "F" 2 "H" 2 "V" 2 "W" 2
    "Y" 2 "K" 1 "J" 1 "X" 1 "Q" 1 "Z" 1})
 
+(def ^:private group-by-frequency
+  (partial group-by #(second %)))
+
 (defn- format-tile [[freq tiles]]
   (str freq ": " (string/join ", " (map str tiles))))
 
@@ -16,10 +19,10 @@
        (map format-tile)
        (string/join "\n")))
 
-(defn- sort-tiles [tiles-in-bag]
+(defn- sort-by-frequency [tiles-in-bag]
   (map (fn [[freq & [tiles]]]
          [freq (sort (map first tiles))])
-       (sort-by key > (group-by #(second %) tiles-in-bag))))
+       (sort-by key > (group-by-frequency tiles-in-bag))))
 
 (defn- consume-tile [tiles-in-bag tile-in-play]
   (update tiles-in-bag tile-in-play dec))
@@ -35,7 +38,7 @@
 (defn- display-distribution [tiles-in-bag]
   (let [overconsumed-tiles (filter #(neg? (second %)) tiles-in-bag)]
     (if (empty? overconsumed-tiles)
-      (format-tiles (sort-tiles tiles-in-bag))
+      (format-tiles (sort-by-frequency tiles-in-bag))
       (format-error-message overconsumed-tiles))))
 
 (defn tiles-left [tiles-in-play]
